@@ -5,13 +5,13 @@ import TodoList from "../components/TodoList";
 function HomePage() {
   const [todos, setTodos] = useState([]);
 
-  async function handleAddTodo(title) {
-    const newTodos = [...todos, { title, isCompleted: false }];
+  async function handleAddTodo(name) {
+    const newTodos = [...todos, { name, isCompleted: false }];
 
     const data = await fetch("http://localhost:3001/todo/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, isCompleted: false }),
+      body: JSON.stringify({ name, isCompleted: false }),
     }).then((res) => {
       console.log(res.json());
     });
@@ -19,20 +19,21 @@ function HomePage() {
     setTodos(newTodos);
   }
 
-  function handleCompleteTodo(index) {
+  async function handleCompleteTodo(index, id) {
     const newTodos = [...todos];
+    const data = await fetch(`http://localhost:3001/todo/update/${id}`, {
+      method: "PUT",
+    });
     newTodos[index].isCompleted = true;
     setTodos(newTodos);
   }
 
   async function handleDeleteTodo(index) {
-    console.log(index);
     const newTodos = [...todos];
     const data = await fetch(`http://localhost:3001/todo/delete/${index}`, {
       method: "DELETE",
     });
     const res = await data.json();
-    console.log(res);
     newTodos.splice(index, 1);
     setTodos(newTodos);
   }

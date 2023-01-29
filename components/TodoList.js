@@ -6,9 +6,9 @@ export default function TodoList({ todos, onComplete, onDelete }) {
       {todos.map((todo, index) => (
         <Todo
           key={index}
-          text={todo.title}
+          text={todo.name}
           isCompleted={todo.isCompleted}
-          onComplete={() => onComplete(index)}
+          onComplete={() => onComplete(index, todo._id)}
           onDelete={() => onDelete(todo._id)}
         />
       ))}
