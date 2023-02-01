@@ -17,7 +17,6 @@ export default function LoginForm() {
             password: "",
           }}
           onSubmit={async (values) => {
-            // alert(JSON.stringify(values, null, 2));
             try {
               const data = await fetch("http://localhost:3001/login", {
                 method: "POST",
@@ -32,7 +31,7 @@ export default function LoginForm() {
                 token: res.data.token,
               };
               dispatch(isLoggedIn(user));
-
+              // if login success, redirect to todo page, else show error
               res.status === "success" ? Router.push("/todo") : alert("Error.");
             } catch (error) {
               console.log(error);

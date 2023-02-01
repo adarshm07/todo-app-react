@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { isLoggedIn } from "../store/user";
 
 export default function Navbar() {
+  // dispatch is used to update the state
   const dispatch = useDispatch();
+
+  // selector is used to access the state4
   const user = useSelector((state) => state.user);
 
   useEffect(() => {

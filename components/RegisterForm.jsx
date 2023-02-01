@@ -1,8 +1,7 @@
 import { Field, Form, Formik } from "formik";
-// import { useSelector } from "react-redux";
+import Router from "next/router";
 
 export default function RegisterForm() {
-  // const user = useSelector((state) => state.user);
   return (
     <div className="container">
       <div className="login-col">
@@ -15,8 +14,6 @@ export default function RegisterForm() {
             password: "",
           }}
           onSubmit={async (values) => {
-            // alert(JSON.stringify(values, null, 2));
-            console.log(values);
             try {
               const data = await fetch("http://localhost:3001/register", {
                 method: "POST",
@@ -24,7 +21,8 @@ export default function RegisterForm() {
                 body: JSON.stringify(values),
               });
               const res = await data.json();
-              console.log(res);
+              // if register success, redirect to login page
+              res.status === "success" ? Router.push("/login") : null;
             } catch (error) {
               console.log(error);
             }

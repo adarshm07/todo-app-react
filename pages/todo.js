@@ -11,12 +11,16 @@ function TodoApp() {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
+    // check if user object is empty or not,
+    // if empty which means user is not logged in,
+    // redirect to login page.
     if (Object.keys(user.user).length) {
       getTodo();
     } else {
       Router.push("/login");
     }
   }, []);
+
   // this function will add the todo to the ui and push it to the database.
   async function handleAddTodo(name) {
     // creating a copy of todos and adding the new todo to the todo state.
