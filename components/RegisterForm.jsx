@@ -1,8 +1,8 @@
 import { Field, Form, Formik } from "formik";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 export default function RegisterForm() {
-  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.user);
   return (
     <div>
       <h2>Register</h2>
