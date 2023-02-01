@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import { useSelector } from "react-redux";
 
-export default function Login() {
+export default function LoginForm() {
   const user = useSelector((state) => state.user);
   return (
     <div>
@@ -12,7 +12,17 @@ export default function Login() {
           password: "",
         }}
         onSubmit={async (values) => {
-          alert(JSON.stringify(values, null, 2));
+          // alert(JSON.stringify(values, null, 2));
+          try {
+            const data = await fetch("http://localhost:3001/login", {
+              method: "POST",
+              body: values,
+            });
+            const res = await data.json();
+            console.log(res);
+          } catch (error) {
+            console.log(error);
+          }
         }}
       >
         <Form>
@@ -20,7 +30,7 @@ export default function Login() {
           <Field
             id="email"
             name="email"
-            placeholder="jane@acme.com"
+            placeholder="johndoe@example.com"
             type="email"
           />
 
