@@ -16,7 +16,8 @@ export default function LoginForm() {
           try {
             const data = await fetch("http://localhost:3001/login", {
               method: "POST",
-              body: values,
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(values),
             });
             const res = await data.json();
             console.log(res);

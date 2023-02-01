@@ -8,16 +8,19 @@ export default function RegisterForm() {
       <h2>Register</h2>
       <Formik
         initialValues={{
-          name: "",
+          firstName: "",
+          lastName: "",
           email: "",
           password: "",
         }}
         onSubmit={async (values) => {
           // alert(JSON.stringify(values, null, 2));
+          console.log(values);
           try {
             const data = await fetch("http://localhost:3001/register", {
               method: "POST",
-              body: values,
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(values),
             });
             const res = await data.json();
             console.log(res);
