@@ -64,3 +64,15 @@
 .todo button.completed {
   background-color: #ccc;
 }
+
+/* Login */
+.login-app {
+  margin: auto;
+  max-width: 1200px;
+}
+
+@media (max-width: 768px) {
+  .login-app {
+    max-width: 768px;
+  }
+}
