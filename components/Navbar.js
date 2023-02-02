@@ -16,7 +16,7 @@ export default function Navbar() {
     }
   }, [user]);
   return (
-    <div>
+    <div className="container">
       <div className="user-details">
         <div>
           <p>{user?.user?.firstName}</p> <p>{user?.user?.lastName}</p>

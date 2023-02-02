@@ -21,37 +21,39 @@ function TodoApp() {
     }
   }, []);
 
-  // this function will add the todo to the ui and push it to the database.
+  // this function will add todo to the database.
   async function handleAddTodo(name) {
-    // creating a copy of todos and adding the new todo to the todo state.
-    const newTodos = [...todos, { name, isCompleted: false }];
-
-    // on load this will call the getTodo function.
-    // empty array means, it will load once on load.
-
     const data = await fetch("http://localhost:3001/todo/add", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": user.user.token,
+      },
       body: JSON.stringify({ name, isCompleted: false }),
-    }).then((res) => {
-      console.log(res.json());
+    }).then(async (res) => {
+      const result = await res.json();
+      // if success, call get api, this is to make sure that we have all the latest data and to get the _id from mongodb.
+      result.status === "success" ? getTodo() : alert("Error.");
     });
-
-    // this is an alternate approach, either we can update the ui this way - by setting the newTodo to todo state.
-    // another approach would be - based on the res - you can show it or not in the ui.
-    // calling the GET api again after getting the res is another way to get the latest update.
-    setTodos(newTodos);
   }
 
-  // this is the function to update the todo.
+  // this is the function to update the todo completed status in database.
   // the same can be used to edit the todo with some updates.
   async function handleCompleteTodo(index, id) {
     const newTodos = [...todos];
     const data = await fetch(`http://localhost:3001/todo/update/${id}`, {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": user.user.token,
+      },
+    }).then(async (res) => {
+      newTodos[index].isCompleted = true;
+      const result = await res.json();
+      // we can call the getTodo api or just update here in ui without calling the api.
+      // but calling the api will make sure that you get the latest data from database.
+      result.status === "success" ? getTodo() : alert("Error.");
     });
-    newTodos[index].isCompleted = true;
-    setTodos(newTodos);
   }
 
   // delete the todo api call.
@@ -59,15 +61,26 @@ function TodoApp() {
     const newTodos = [...todos];
     const data = await fetch(`http://localhost:3001/todo/delete/${index}`, {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": user.user.token,
+      },
+    }).then(async (res) => {
+      const result = await res.json();
+      // we can call the getTodo api or just update here in ui without calling the api.
+      result.status === "success" ? getTodo() : alert("Error.");
     });
-    const res = await data.json();
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
   }
 
   // get api call
   const getTodo = async () => {
-    const data = await fetch("http://localhost:3001/todo/get");
+    const data = await fetch("http://localhost:3001/todo/get", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": user.user.token,
+      },
+    });
     const res = await data.json();
     setTodos(res.data);
   };
