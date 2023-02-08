@@ -9,25 +9,18 @@ export default function AddCategory({ show, hide, onSubmit }) {
         <div className="container">
           <div className="add-category-modal">
             <h2 className="fs-4">Add Category</h2>
-            <Formik
-              initialValues={{
-                title: "",
+            <form
+              className="todo-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                onSubmit(e.target.elements.category.value);
               }}
-              onSubmit={onSubmit}
             >
-              <Form className="login-input">
-                <label htmlFor="title">Category Name</label>
-                <Field
-                  id="title"
-                  name="title"
-                  placeholder="Category Name"
-                  type="text"
-                />
-                <button type="submit" onClick={hide}>
-                  Add Category
-                </button>
-              </Form>
-            </Formik>
+              <input type="text" name="category" placeholder="Category Name" />
+              <button type="submit" onClick={hide}>
+                Add Category
+              </button>
+            </form>
           </div>
         </div>
       </Modal>

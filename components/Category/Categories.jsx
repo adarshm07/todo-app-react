@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import EditCategory from "./EditCategory";
 
-export default function Categories({
-  categories,
-  handleClick,
-  handleDelete,
-  handleEditCategory,
-}) {
+export default function Categories({ categories, handleClick, handleDelete, handleEditCategory }) {
+  // state to show/hide modal
   const [show, setShow] = useState(false);
+  // keeping default value as null as there is no selected item by default.
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleClose = () => setShow(false);
@@ -43,6 +40,7 @@ export default function Categories({
                 >
                   {item.title}
                 </li>
+
                 <button onClick={() => handleShow(item)}>Edit</button>
                 <button onClick={() => handleDelete(item._id)}>Delete</button>
 

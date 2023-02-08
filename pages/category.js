@@ -22,10 +22,7 @@ export default function Category() {
   const getAllCategories = async () => {
     const data = await fetch("http://localhost:3001/category/get", {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-token": user.user.token,
-      },
+      headers,
     });
     const res = await data.json();
     setCategories(res.data);
@@ -40,24 +37,19 @@ export default function Category() {
       }
     ).then(async (res) => {
       const result = await res.json();
-      // we can call the getTodo api or just update here in ui without calling the api.
       result.status === "success" ? getAllCategories() : alert("Error.");
     });
   };
 
-  const addCategory = async (values) => {
+  const addCategory = async (value) => {
     try {
       const data = await fetch("http://localhost:3001/category/add", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-token": user.user.token,
-        },
-        body: JSON.stringify(values),
+        headers,
+        body: JSON.stringify({ title: value }),
       });
 
       const res = await data.json();
-      // if register success, redirect to login page
       res.status === "success" ? getAllCategories() : alert("Error");
     } catch (error) {
       console.log(error);
@@ -65,16 +57,12 @@ export default function Category() {
   };
 
   const handleEditCategory = async (updatedValue, categoryId) => {
-    console.log(categoryId);
     try {
       const data = await fetch(
         `http://localhost:3001/category/update/${categoryId}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "x-token": user.user.token,
-          },
+          headers,
           body: JSON.stringify({
             title: updatedValue,
           }),
@@ -82,7 +70,6 @@ export default function Category() {
       );
 
       const res = await data.json();
-      // if register success, redirect to login page
       res.status === "success" ? getAllCategories() : alert("Error");
     } catch (error) {
       console.log(error);

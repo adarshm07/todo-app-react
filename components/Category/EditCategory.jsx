@@ -1,6 +1,4 @@
 import React from "react";
-import { Field, Form, Formik } from "formik";
-import Router from "next/router";
 import Modal from "react-bootstrap/Modal";
 
 export default function EditCategory({ show, hide, onSubmit, selectedItem }) {

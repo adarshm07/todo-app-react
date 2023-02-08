@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import Layout from "../components/Layout";
 import TodoForm from "../components/Todo/TodoForm";
 import TodoList from "../components/Todo/TodoList";
-import api from "../network/api";
 
 function TodoApp() {
   const user = useSelector((state) => state.user);
@@ -22,7 +21,6 @@ function TodoApp() {
     // check if user object is empty or not,
     // if empty which means user is not logged in,
     // redirect to login page.
-    api();
     if (Object.keys(user.user).length) {
       getTodo();
       getAllCategories();
