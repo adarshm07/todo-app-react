@@ -16,12 +16,14 @@ export default function Navbar() {
     }
   }, [user]);
   return (
-    <div className="container">
-      <div className="user-details">
-        <div>
-          <p>{user?.user?.firstName}</p> <p>{user?.user?.lastName}</p>
+    <div className="row">
+      <div className="container">
+        <div className="user-details p-2">
+          <div>
+            {/* <p>{user?.user?.firstName}</p> <p>{user?.user?.lastName}</p> */}
+          </div>
+          <button onClick={() => dispatch(isLoggedIn({}))}>Logout</button>
         </div>
-        <button onClick={() => dispatch(isLoggedIn({}))}>Logout</button>
       </div>
     </div>
   );

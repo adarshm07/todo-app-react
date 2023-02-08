@@ -18,6 +18,14 @@
   border: 1px solid #ccc;
 }
 
+.todo-form select,
+select.todo-filter {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
 .todo-form button[type="submit"] {
   padding: 8px 16px;
   font-size: 16px;
@@ -25,6 +33,21 @@
   background-color: #4caf50;
   color: white;
   border: none;
+}
+
+button.add-category {
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 4px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+}
+
+.filter-category {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
 }
 
 .todo-list {
@@ -66,10 +89,10 @@
 }
 
 /* Login */
-.container {
+/* .container {
   margin: auto;
   max-width: 1200px;
-}
+} */
 
 @media (max-width: 768px) {
   .container {
@@ -98,6 +121,14 @@
   width: 300px;
   padding: 20px;
   margin: auto;
+}
+
+.add-category-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
 .login-input {
@@ -154,5 +185,4 @@
   border: 0;
   border-radius: 4px;
   padding: 6px 14px;
-  height: 30px;
 }
