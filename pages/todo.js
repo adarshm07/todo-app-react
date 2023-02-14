@@ -11,6 +11,7 @@ function TodoApp() {
   // state to store the list of todos - default value []
   const [todos, setTodos] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const headers = {
     "Content-Type": "application/json",
@@ -45,16 +46,18 @@ function TodoApp() {
   // this is the function to update the todo completed status in database.
   // the same can be used to edit the todo with some updates.
   async function handleCompleteTodo(index, id) {
-    const newTodos = [...todos];
     const data = await fetch(`http://localhost:3001/todo/update/${id}`, {
       method: "PUT",
       headers,
     }).then(async (res) => {
-      newTodos[index].isCompleted = true;
       const result = await res.json();
       // we can call the getTodo api or just update here in ui without calling the api.
       // but calling the api will make sure that you get the latest data from database.
-      result.status === "success" ? getTodo() : alert("Error.");
+      result.status === "success"
+        ? selectedCategory === "All"
+          ? getTodo()
+          : getTodoByCategory(selectedCategory)
+        : alert("Error.");
     });
   }
 
@@ -111,12 +114,13 @@ function TodoApp() {
             <select
               className="todo-filter"
               name="category"
-              onChange={(e) =>
+              onChange={(e) => {
+                setSelectedCategory(e.target.value);
                 // check if selected filter is All or category.
                 e.target.value === "All"
                   ? getTodo()
-                  : getTodoByCategory(e.target.value)
-              }
+                  : getTodoByCategory(e.target.value);
+              }}
             >
               {/* adding a default option. */}
               <option value={"All"}>All</option>
