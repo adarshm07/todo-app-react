@@ -15,11 +15,14 @@ export default function RegisterForm() {
           }}
           onSubmit={async (values) => {
             try {
-              const data = await fetch("http://localhost:3001/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(values),
-              });
+              const data = await fetch(
+                `${process.env.REACT_APP_PUBLIC_API_URL}/register`,
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(values),
+                }
+              );
               const res = await data.json();
               // if register success, redirect to login page
               res.status === "success" ? Router.push("/login") : null;

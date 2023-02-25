@@ -1,5 +1,4 @@
 import { Field, Form, Formik } from "formik";
-import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { isLoggedIn } from "../store/user";
 
@@ -18,11 +17,14 @@ export default function LoginForm() {
           }}
           onSubmit={async (values) => {
             try {
-              const data = await fetch("http://localhost:3001/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(values),
-              });
+              const data = await fetch(
+                `${process.env.REACT_APP_PUBLIC_API_URL}/login`,
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(values),
+                }
+              );
               const res = await data.json();
               const user = {
                 firstName: res.data.getUser.firstName,
@@ -32,7 +34,8 @@ export default function LoginForm() {
               };
               dispatch(isLoggedIn(user));
               // if login success, redirect to todo page, else show error
-              res.status === "success" ? Router.push("/todo") : alert("Error.");
+              // TODO: add redirection.
+              // res.status === "success" ? Router.push("/todo") : alert("Error.");
             } catch (error) {
               console.log(error);
             }

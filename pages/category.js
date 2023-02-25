@@ -20,17 +20,20 @@ export default function Category() {
 
   // get all categories
   const getAllCategories = async () => {
-    const data = await fetch("http://localhost:3001/category/get", {
-      method: "GET",
-      headers,
-    });
+    const data = await fetch(
+      `${process.env.REACT_APP_PUBLIC_API_URL}/category/get`,
+      {
+        method: "GET",
+        headers,
+      }
+    );
     const res = await data.json();
     setCategories(res.data);
   };
 
   const handleDelete = async (categoryId) => {
     const data = await fetch(
-      `http://localhost:3001/category/delete/${categoryId}`,
+      `${process.env.REACT_APP_PUBLIC_API_URL}/category/delete/${categoryId}`,
       {
         method: "DELETE",
         headers,
@@ -43,11 +46,14 @@ export default function Category() {
 
   const addCategory = async (value) => {
     try {
-      const data = await fetch("http://localhost:3001/category/add", {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ title: value }),
-      });
+      const data = await fetch(
+        `${process.env.REACT_APP_PUBLIC_API_URL}/category/add`,
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ title: value }),
+        }
+      );
 
       const res = await data.json();
       res.status === "success" ? getAllCategories() : alert("Error");
@@ -59,7 +65,7 @@ export default function Category() {
   const handleEditCategory = async (updatedValue, categoryId) => {
     try {
       const data = await fetch(
-        `http://localhost:3001/category/update/${categoryId}`,
+        `${process.env.REACT_APP_PUBLIC_API_URL}/category/update/${categoryId}`,
         {
           method: "PUT",
           headers,
