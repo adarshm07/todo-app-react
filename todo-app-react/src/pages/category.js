@@ -1,4 +1,4 @@
-import Link from "next/link";
+// import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AddCategory from "../components/Category/AddCategory";
@@ -97,7 +97,7 @@ export default function Category() {
           Add category
         </button>
 
-        <Link href={"/todo"}>Go to todo</Link>
+        {/* <Link href={"/todo"}>Go to todo</Link> */}
         <AddCategory show={show} hide={handleClose} onSubmit={addCategory} />
         <Categories
           categories={categories}
