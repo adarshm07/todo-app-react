@@ -1,22 +1,25 @@
 import { Field, Form, Formik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
 import { redirect } from "react-router-dom";
+import { isLoggedIn } from "../store/user";
 
-export default function RegisterForm() {
+export default function LoginForm() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  // console.log(user);
   return (
     <div className="container">
       <div className="login-col">
-        <h2>Register</h2>
+        <h2 className="heading-two">Login</h2>
         <Formik
           initialValues={{
-            firstName: "",
-            lastName: "",
             email: "",
             password: "",
           }}
           onSubmit={async (values) => {
             try {
               const data = await fetch(
-                `${process.env.REACT_APP_PUBLIC_API_URL}/register`,
+                `${process.env.REACT_APP_PUBLIC_API_URL}/login`,
                 {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
@@ -24,30 +27,25 @@ export default function RegisterForm() {
                 }
               );
               const res = await data.json();
-              // if register success, redirect to login page
-              res.status === "success" ? redirect("/login") : null;
+              const user = {
+                firstName: res.data.getUser.firstName,
+                lastName: res.data.getUser.lastName,
+                email: res.data.getUser.email,
+                token: res.data.token,
+              };
+              dispatch(isLoggedIn(user));
+              // if login success, redirect to todo page, else show error
+              if (res.status === "success") {
+                return redirect("/todo");
+              } else {
+                alert("Error.");
+              }
             } catch (error) {
               console.log(error);
             }
           }}
         >
           <Form className="login-input">
-            <label htmlFor="firstName">First Name</label>
-            <Field
-              id="firstName"
-              name="firstName"
-              placeholder="John"
-              type="text"
-            />
-
-            <label htmlFor="lastName">Last Name</label>
-            <Field
-              id="lastName"
-              name="lastName"
-              placeholder="Doe"
-              type="text"
-            />
-
             <label htmlFor="email">Email</label>
             <Field
               id="email"
