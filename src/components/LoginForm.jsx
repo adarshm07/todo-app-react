@@ -6,7 +6,7 @@ import { isLoggedIn } from "../store/user";
 export default function LoginForm() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  // console.log(user);
+  console.log(Object.keys(user.user).length);
   return (
     <div className="container">
       <div className="login-col">

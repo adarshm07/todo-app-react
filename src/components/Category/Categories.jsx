@@ -22,9 +22,10 @@ export default function Categories({ categories, handleClick, handleDelete, hand
         }}
       >
         {categories &&
-          categories.map((item) => {
+          categories.map((item, index) => {
             return (
               <div
+                key={index}
                 style={{
                   display: "grid",
                   gridTemplateColumns: "60% 10% 10%",

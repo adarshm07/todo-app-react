@@ -6,40 +6,12 @@ import App from "./App";
 import { store } from "./store/index.js";
 import { Provider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "./pages/login";
-import Register from "./pages/register";
-import TodoApp from "./pages/todo";
-import Category from "./pages/category";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/todo",
-    element: <TodoApp />,
-  },
-  {
-    path: "/category",
-    element: <Category />,
-  },
-]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <App />
     </Provider>
   </React.StrictMode>
 );
