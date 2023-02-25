@@ -1,11 +1,10 @@
-// import Link from "next/link";
-// import Router from "next/router";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { redirect } from "react-router-dom";
 import Layout from "../components/Layout";
 import TodoForm from "../components/Todo/TodoForm";
 import TodoList from "../components/Todo/TodoList";
+import { Link } from "react-router-dom";
 
 function TodoApp() {
   const user = useSelector((state) => state.user);
@@ -154,7 +153,7 @@ function TodoApp() {
             </select>
           </div>
 
-          {/* <Link href={"/category"}>Edit Categories</Link> */}
+          <Link to={"/category"}>Edit Categories</Link>
         </div>
         <TodoList
           todos={todos}

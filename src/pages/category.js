@@ -1,9 +1,9 @@
-// import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AddCategory from "../components/Category/AddCategory";
 import Categories from "../components/Category/Categories";
 import Layout from "../components/Layout";
+import { Link } from "react-router-dom"
 
 export default function Category() {
   const user = useSelector((state) => state.user);
@@ -97,7 +97,7 @@ export default function Category() {
           Add category
         </button>
 
-        {/* <Link href={"/todo"}>Go to todo</Link> */}
+        <Link to={"/todo"}>Go to todo</Link>
         <AddCategory show={show} hide={handleClose} onSubmit={addCategory} />
         <Categories
           categories={categories}
