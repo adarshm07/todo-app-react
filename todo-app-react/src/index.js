@@ -8,6 +8,9 @@ import { Provider } from "react-redux";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./pages/login";
+import Register from "./pages/register";
+import TodoApp from "./pages/todo";
+import Category from "./pages/category";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +20,18 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "/todo",
+    element: <TodoApp />,
+  },
+  {
+    path: "/category",
+    element: <Category />,
   },
 ]);
 

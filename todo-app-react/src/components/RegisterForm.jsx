@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from "formik";
-import Router from "next/router";
+import { redirect } from "react-router-dom";
 
 export default function RegisterForm() {
   return (
@@ -25,7 +25,7 @@ export default function RegisterForm() {
               );
               const res = await data.json();
               // if register success, redirect to login page
-              res.status === "success" ? Router.push("/login") : null;
+              res.status === "success" ? redirect("/login") : null;
             } catch (error) {
               console.log(error);
             }

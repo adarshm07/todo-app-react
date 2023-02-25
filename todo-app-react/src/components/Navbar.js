@@ -1,6 +1,7 @@
-import Router from "next/router";
+// import Router from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { redirect } from "react-router-dom";
 import { isLoggedIn } from "../store/user";
 
 export default function Navbar() {
@@ -12,7 +13,7 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!Object.keys(user.user).length) {
-      Router.push("/login");
+      redirect("/login");
     }
   }, [user]);
   return (

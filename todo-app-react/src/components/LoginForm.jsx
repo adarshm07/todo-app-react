@@ -1,5 +1,6 @@
 import { Field, Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
+import { redirect } from "react-router-dom";
 import { isLoggedIn } from "../store/user";
 
 export default function LoginForm() {
@@ -34,8 +35,7 @@ export default function LoginForm() {
               };
               dispatch(isLoggedIn(user));
               // if login success, redirect to todo page, else show error
-              // TODO: add redirection.
-              // res.status === "success" ? Router.push("/todo") : alert("Error.");
+              res.status === "success" ? redirect("/todo") : alert("Error.");
             } catch (error) {
               console.log(error);
             }
