@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from "formik";
-import { redirect } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 
 export default function RegisterForm() {
   return (
@@ -68,6 +68,9 @@ export default function RegisterForm() {
             <button type="submit">Submit</button>
           </Form>
         </Formik>
+        <div>
+          <Link to={"/"}>Login</Link>
+        </div>
       </div>
     </div>
   );

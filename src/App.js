@@ -9,6 +9,7 @@ import {
 import LoginForm from "./components/LoginForm";
 import Category from "./pages/category";
 import { useSelector } from "react-redux";
+import RegisterForm from "./components/RegisterForm";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -26,6 +27,7 @@ function App() {
           <Route exact path="/" element={userLoggedIn ? <TodoApp /> : <LoginForm />} />
           <Route exact path="todo" element={userLoggedIn ? <TodoApp /> : <LoginForm />} />
           <Route exact path="category" element={userLoggedIn ? <Category /> : <LoginForm />} />
+          <Route exact path="register" element={userLoggedIn ? <TodoApp /> : <RegisterForm />} />
         </Routes>
       </Router>
     </React.Fragment>

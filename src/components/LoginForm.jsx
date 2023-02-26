@@ -1,12 +1,12 @@
 import { Field, Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { redirect } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import { isLoggedIn } from "../store/user";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  console.log(Object.keys(user.user).length);
+  // const user = useSelector((state) => state.user);
+  // console.log(Object.keys(user.user).length);
   return (
     <div className="container">
       <div className="login-col">
@@ -64,6 +64,10 @@ export default function LoginForm() {
             <button type="submit">Submit</button>
           </Form>
         </Formik>
+
+        <div>
+          <Link to={"/register"}>Create an account.</Link>
+        </div>
       </div>
     </div>
   );
