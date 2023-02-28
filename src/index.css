@@ -1,0 +1,202 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* TodoApp.css */
+.todo-app {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.todo-form {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.todo-form input[type="text"] {
+  flex: 1;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.todo-form select,
+select.todo-filter {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.todo-form button[type="submit"] {
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 4px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+}
+
+button.add-category {
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 4px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+}
+
+.filter-category {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.todo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  margin-bottom: 8px;
+}
+
+.todo span {
+  flex: 1;
+  margin-right: 16px;
+}
+
+.todo button {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  background-color: #020202;
+  color: white;
+  border: none;
+}
+
+.todo .completed {
+  text-decoration: line-through;
+}
+
+.todo button.completed {
+  background-color: #ccc;
+}
+
+/* Login */
+/* .container {
+  margin: auto;
+  max-width: 1200px;
+} */
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.login-register {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #f9f9f9;
+  box-shadow: 4px 12px 20px #f4f4f4;
+  width: 300px;
+  padding: 20px;
+  margin: auto;
+}
+
+.add-category-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.login-input label {
+  font-size: 14px;
+  color: #bdbbbb;
+  margin: 12px 0 4px 0;
+}
+
+.login-input input {
+  /* width: 100%; */
+  height: 30px;
+  border: 0;
+  border-radius: 4px;
+  padding: 6px;
+  background: #f4f4f4;
+}
+
+.login-input button {
+  border: 0;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 14px;
+  background-color: #020202;
+  color: #ffffff;
+  margin-top: 14px;
+}
+
+.heading-two {
+  margin: 0;
+  font-size: 18px;
+}
+
+.user-details {
+  background: #f9f9f9;
+  border: 1px solid #f9f9f9;
+  box-shadow: 4px 12px 20px #f4f4f4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-details div {
+  display: flex;
+}
+.user-details button {
+  background-color: #020202;
+  color: #ffffff;
+  border: 0;
+  border-radius: 4px;
+  padding: 6px 14px;
+}
