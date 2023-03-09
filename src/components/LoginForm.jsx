@@ -1,22 +1,29 @@
-import { Field, Form, Formik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, redirect } from "react-router-dom";
-import { isLoggedIn } from "../store/user";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
-  const dispatch = useDispatch();
-  // const user = useSelector((state) => state.user);
-  // console.log(Object.keys(user.user).length);
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (window.localStorage.getItem("token")) {
+      return navigate("/todo");
+    } else {
+      return;
+    }
+  }, [navigate]);
+
   return (
     <div className="container">
       <div className="login-col">
         <h2 className="heading-two">Login</h2>
-        <Formik
-          initialValues={{
-            email: "",
-            password: "",
-          }}
-          onSubmit={async (values) => {
+        <form
+          className="login-input"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const values = {
+              email: e.target.email.value,
+              password: e.target.password.value,
+            };
             try {
               const data = await fetch(
                 `${process.env.REACT_APP_PUBLIC_API_URL}/login`,
@@ -27,16 +34,13 @@ export default function LoginForm() {
                 }
               );
               const res = await data.json();
-              const user = {
-                firstName: res.data.getUser.firstName,
-                lastName: res.data.getUser.lastName,
-                email: res.data.getUser.email,
-                token: res.data.token,
-              };
-              dispatch(isLoggedIn(user));
+
               // if login success, redirect to todo page, else show error
               if (res.status === "success") {
-                return redirect("/todo");
+                if (window) {
+                  localStorage.setItem("token", res.data.token);
+                }
+                return navigate("/todo");
               } else {
                 alert("Error.");
               }
@@ -45,25 +49,25 @@ export default function LoginForm() {
             }
           }}
         >
-          <Form className="login-input">
-            <label htmlFor="email">Email</label>
-            <Field
-              id="email"
-              name="email"
-              placeholder="johndoe@example.com"
-              type="email"
-            />
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            placeholder="johndoe@example.com"
+            type="email"
+            required
+          />
 
-            <label htmlFor="password">Password</label>
-            <Field
-              id="password"
-              name="password"
-              placeholder="******"
-              type="password"
-            />
-            <button type="submit">Submit</button>
-          </Form>
-        </Formik>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            placeholder="******"
+            type="password"
+            required
+          />
+          <button type="submit">Submit</button>
+        </form>
 
         <div>
           <Link to={"/register"}>Create an account.</Link>

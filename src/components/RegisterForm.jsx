@@ -1,7 +1,8 @@
 import { Field, Form, Formik } from "formik";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
+  let navigate = useNavigate();
   return (
     <div className="container">
       <div className="login-col">
@@ -26,7 +27,7 @@ export default function RegisterForm() {
               const res = await data.json();
               // if register success, redirect to login page
               if (res.status === "success") {
-                return redirect("/login");
+                return navigate("/");
               }
             } catch (error) {
               console.log(error);

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import AddCategory from "../components/Category/AddCategory";
 import Categories from "../components/Category/Categories";
 import Layout from "../components/Layout";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 export default function Category() {
-  const user = useSelector((state) => state.user);
   const [categories, setCategories] = useState([]);
   const [show, setShow] = useState(false);
 
@@ -15,7 +13,7 @@ export default function Category() {
 
   const headers = {
     "Content-Type": "application/json",
-    "x-token": user.user.token,
+    "x-token": localStorage.getItem("token"),
   };
 
   // get all categories
@@ -32,7 +30,7 @@ export default function Category() {
   };
 
   const handleDelete = async (categoryId) => {
-    const data = await fetch(
+    await fetch(
       `${process.env.REACT_APP_PUBLIC_API_URL}/category/delete/${categoryId}`,
       {
         method: "DELETE",
@@ -82,9 +80,9 @@ export default function Category() {
     }
   };
 
-  useEffect(() => {
-    getAllCategories();
-  }, [show]);
+  // useEffect(() => {
+  //   getAllCategories();
+  // }, [show]);
 
   const handleClick = (e) => {
     console.log(e);
@@ -99,12 +97,12 @@ export default function Category() {
 
         <Link to={"/todo"}>Go to todo</Link>
         <AddCategory show={show} hide={handleClose} onSubmit={addCategory} />
-        <Categories
+        {/* <Categories
           categories={categories}
           handleClick={handleClick}
           handleDelete={handleDelete}
           handleEditCategory={handleEditCategory}
-        />
+        /> */}
       </div>
     </Layout>
   );

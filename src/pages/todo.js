@@ -1,124 +1,100 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import TodoForm from "../components/Todo/TodoForm";
 import TodoList from "../components/Todo/TodoList";
-import { Link } from "react-router-dom";
+import {
+  getTodos,
+  addTodo,
+  updateTodo,
+  deleteTodo,
+  getCategories,
+} from "./api/todos";
 
-function TodoApp() {
-  const user = useSelector((state) => state.user);
-  // state to store the list of todos - default value []
+export default function TodoApp() {
   const [todos, setTodos] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const headers = {
-    "Content-Type": "application/json",
-    "x-token": user.user.token,
+  let navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetchData();
+    } else {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  const fetchData = async () => {
+    try {
+      const [todoData, categoryData] = await Promise.all([
+        getTodos(),
+        getCategories(),
+      ]);
+      console.log(categoryData);
+      setTodos(todoData);
+      setCategories(categoryData);
+    } catch (error) {
+      console.error(error);
+      // alert("Error fetching data.");
+    }
   };
 
-  useEffect(() => {
-    // check if user object is empty or not,
-    // if empty which means user is not logged in,
-    // redirect to login page.
-    if (Object.keys(user.user).length) {
-      getTodo();
-      getAllCategories();
-    } else {
-      redirect("/login");
+  const handleAddTodo = async (name, categoryId) => {
+    try {
+      const result = await addTodo({ name, isCompleted: false, categoryId });
+      if (result.status === "success") {
+        fetchData();
+      } else {
+        alert("Error adding todo.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error adding todo.");
     }
-  }, []);
+  };
 
-  // this function will add todo to the database.
-  async function handleAddTodo(name, categoryId) {
-    const data = await fetch(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/todo/add`,
-      {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ name, isCompleted: false, categoryId }),
+  const handleCompleteTodo = async (index, id) => {
+    try {
+      const result = await updateTodo(id);
+      if (result.status === "success") {
+        if (selectedCategory === "All") {
+          fetchData();
+        } else {
+          getTodoByCategory(selectedCategory);
+        }
+      } else {
+        alert("Error updating todo.");
       }
-    ).then(async (res) => {
-      const result = await res.json();
-      // if success, call get api, this is to make sure that we have all the latest data and to get the _id from mongodb.
-      result.status === "success" ? getTodo() : alert("Error.");
-    });
-  }
+    } catch (error) {
+      console.error(error);
+      alert("Error updating todo.");
+    }
+  };
 
-  // this is the function to update the todo completed status in database.
-  // the same can be used to edit the todo with some updates.
-  async function handleCompleteTodo(index, id) {
-    const data = await fetch(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/todo/update/${id}`,
-      {
-        method: "PUT",
-        headers,
+  const handleDeleteTodo = async (index) => {
+    try {
+      const result = await deleteTodo(index);
+      if (result.status === "success") {
+        fetchData();
+      } else {
+        alert("Error deleting todo.");
       }
-    ).then(async (res) => {
-      const result = await res.json();
-      // we can call the getTodo api or just update here in ui without calling the api.
-      // but calling the api will make sure that you get the latest data from database.
-      result.status === "success"
-        ? selectedCategory === "All"
-          ? getTodo()
-          : getTodoByCategory(selectedCategory)
-        : alert("Error.");
-    });
-  }
-
-  // delete the todo api call.
-  async function handleDeleteTodo(index) {
-    // const newTodos = [...todos];
-    const data = await fetch(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/todo/delete/${index}`,
-      {
-        method: "DELETE",
-        headers,
-      }
-    ).then(async (res) => {
-      const result = await res.json();
-      // we can call the getTodo api or just update here in ui without calling the api.
-      result.status === "success" ? getTodo() : alert("Error.");
-    });
-  }
-
-  // get api call
-  const getTodo = async () => {
-    const data = await fetch(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/todo/get`,
-      {
-        method: "GET",
-        headers,
-      }
-    );
-    const res = await data.json();
-    setTodos(res.data);
+    } catch (error) {
+      console.error(error);
+      alert("Error deleting todo.");
+    }
   };
 
   const getTodoByCategory = async (categoryId) => {
-    const data = await fetch(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/todo/get/${categoryId}`,
-      {
-        method: "GET",
-        headers,
-      }
-    );
-    const res = await data.json();
-    setTodos(res.data);
-  };
-
-  // get all categories
-  const getAllCategories = async () => {
-    const data = await fetch(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/category/get`,
-      {
-        method: "GET",
-        headers,
-      }
-    );
-    const res = await data.json();
-    setCategories(res.data);
+    try {
+      const data = await getTodos(categoryId);
+      setTodos(data);
+    } catch (error) {
+      console.error(error);
+      alert("Error fetching data.");
+    }
   };
 
   return (
@@ -132,24 +108,21 @@ function TodoApp() {
             <select
               className="todo-filter"
               name="category"
+              value={selectedCategory}
               onChange={(e) => {
                 setSelectedCategory(e.target.value);
-                // check if selected filter is All or category.
                 e.target.value === "All"
-                  ? getTodo()
+                  ? fetchData()
                   : getTodoByCategory(e.target.value);
               }}
             >
-              {/* adding a default option. */}
               <option value={"All"}>All</option>
               {categories &&
-                categories.map((item, index) => {
-                  return (
-                    <option key={index} value={item._id} name={index}>
-                      {item.title}
-                    </option>
-                  );
-                })}
+                categories.map((category) => (
+                  <option key={category._id} value={category._id}>
+                    {category.title}
+                  </option>
+                ))}
             </select>
           </div>
 
@@ -165,5 +138,3 @@ function TodoApp() {
     </Layout>
   );
 }
-
-export default TodoApp;

@@ -1,5 +1,4 @@
 import React from "react";
-import { Field, Form, Formik } from "formik";
 import Modal from "react-bootstrap/Modal";
 
 export default function AddCategory({ show, hide, onSubmit }) {
