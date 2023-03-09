@@ -1,25 +1,22 @@
 import { Field, Form, Formik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, redirect } from "react-router-dom";
-import { isLoggedIn } from "../store/user";
+import { redirect } from "react-router-dom";
 
-export default function LoginForm() {
-  const dispatch = useDispatch();
-  // const user = useSelector((state) => state.user);
-  // console.log(Object.keys(user.user).length);
+export default function RegisterForm() {
   return (
     <div className="container">
       <div className="login-col">
-        <h2 className="heading-two">Login</h2>
+        <h2>Register</h2>
         <Formik
           initialValues={{
+            firstName: "",
+            lastName: "",
             email: "",
             password: "",
           }}
           onSubmit={async (values) => {
             try {
               const data = await fetch(
-                `${process.env.REACT_APP_PUBLIC_API_URL}/login`,
+                `${process.env.REACT_APP_PUBLIC_API_URL}/register`,
                 {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
@@ -27,18 +24,9 @@ export default function LoginForm() {
                 }
               );
               const res = await data.json();
-              const user = {
-                firstName: res.data.getUser.firstName,
-                lastName: res.data.getUser.lastName,
-                email: res.data.getUser.email,
-                token: res.data.token,
-              };
-              dispatch(isLoggedIn(user));
-              // if login success, redirect to todo page, else show error
+              // if register success, redirect to login page
               if (res.status === "success") {
-                return redirect("/todo");
-              } else {
-                alert("Error.");
+                return redirect("/login");
               }
             } catch (error) {
               console.log(error);
@@ -46,6 +34,22 @@ export default function LoginForm() {
           }}
         >
           <Form className="login-input">
+            <label htmlFor="firstName">First Name</label>
+            <Field
+              id="firstName"
+              name="firstName"
+              placeholder="John"
+              type="text"
+            />
+
+            <label htmlFor="lastName">Last Name</label>
+            <Field
+              id="lastName"
+              name="lastName"
+              placeholder="Doe"
+              type="text"
+            />
+
             <label htmlFor="email">Email</label>
             <Field
               id="email"
@@ -64,10 +68,6 @@ export default function LoginForm() {
             <button type="submit">Submit</button>
           </Form>
         </Formik>
-
-        <div>
-          <Link to={"/register"}>Create an account.</Link>
-        </div>
       </div>
     </div>
   );
