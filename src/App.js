@@ -1,17 +1,17 @@
 import React from "react";
 import TodoApp from "./pages/todo";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import LoginForm from "./components/LoginForm";
-import RegisterForm from "./components/RegisterForm";
+import Login from "./pages/login";
+import Register from "./pages/register";
 
 function App() {
   return (
     <React.Fragment>
       <Router>
         <Routes>
-          <Route exact path="/" element={<LoginForm />} />
+          <Route exact path="/" element={<Login />} />
           <Route exact path="todo" element={<TodoApp />} />
-          <Route exact path="register" element={<RegisterForm />} />
+          <Route exact path="register" element={<Register />} />
         </Routes>
       </Router>
     </React.Fragment>
