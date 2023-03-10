@@ -36,7 +36,10 @@ export default function LoginForm() {
               const res = await data.json();
 
               // if login success, redirect to todo page, else show error
-              if (res.status === "success") {
+              if (
+                res.status === "success" &&
+                res.message !== "User not found"
+              ) {
                 if (window) {
                   localStorage.setItem("token", res.data.token);
                 }

@@ -3,11 +3,8 @@ const headers = {
   "x-token": localStorage.getItem("token"),
 };
 
-export async function getTodos(categoryId = "All") {
-  const url =
-    categoryId === "All"
-      ? `${process.env.REACT_APP_PUBLIC_API_URL}/todo/get`
-      : `${process.env.REACT_APP_PUBLIC_API_URL}/todo/get/${categoryId}`;
+export async function getTodos() {
+  const url = `${process.env.REACT_APP_PUBLIC_API_URL}/todo/get`;
 
   const response = await fetch(url, {
     method: "GET",
@@ -59,20 +56,3 @@ export async function deleteTodo(todoId) {
 
   return { status: "success", data };
 }
-
-export const getCategories = async () => {
-  try {
-    const response = await fetch(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/category/get`,
-      {
-        method: "GET",
-        headers,
-      }
-    );
-
-    const data = await response.json();
-    return data.data;
-  } catch (error) {
-    throw new Error(error.response.data);
-  }
-};
