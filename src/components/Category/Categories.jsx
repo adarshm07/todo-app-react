@@ -1,4 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  getCategories,
+  handleAddCategory,
+  handleDelete,
+  handleEditCategory,
+} from "../../pages/api/categories";
 import AddCategory from "./AddCategory";
 import EditCategory from "./EditCategory";
 
@@ -7,6 +14,7 @@ export default function Categories() {
   const [show, setShow] = useState(false);
   // keeping default value as null as there is no selected item by default.
   const [selectedItem, setSelectedItem] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   const handleClose = () => setShow(false);
   const handleShow = (item) => {
@@ -14,77 +22,34 @@ export default function Categories() {
     setShow(true);
   };
 
-  const [categories, setCategories] = useState([]);
-  // const [show, setShow] = useState(false);
-
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
-
-  const headers = {
-    "Content-Type": "application/json",
-    "x-token": localStorage.getItem("token"),
-  };
-
   // get all categories
   const getAllCategories = async () => {
-    const data = await fetch(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/category/get`,
-      {
-        method: "GET",
-        headers,
-      }
-    );
-    const res = await data.json();
-    setCategories(res.data);
+    const data = await getCategories();
+    setCategories(data);
   };
 
-  const handleDelete = async (categoryId) => {
-    await fetch(
-      `${process.env.REACT_APP_PUBLIC_API_URL}/category/delete/${categoryId}`,
-      {
-        method: "DELETE",
-        headers,
-      }
-    ).then(async (res) => {
-      const result = await res.json();
-      result.status === "success" ? getAllCategories() : alert("Error.");
+  const deleteCategory = async (categoryId) => {
+    await handleDelete(categoryId).then((res) => {
+      const response = res.json();
+      response.status === "success" ? getAllCategories() : alert("Error.");
     });
   };
 
-  const addCategory = async (value) => {
-    console.log(value);
+  const addCategory = async (category) => {
     try {
-      const data = await fetch(
-        `${process.env.REACT_APP_PUBLIC_API_URL}/category/add`,
-        {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ title: value }),
-        }
-      );
-
-      const res = await data.json();
-      res.status === "success" ? getAllCategories() : alert("Error");
+      await handleAddCategory(category).then((res) => {
+        res.status === "success" ? getAllCategories() : alert("Error");
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleEditCategory = async (updatedValue, categoryId) => {
+  const editCategory = async (updatedValue, categoryId) => {
     try {
-      const data = await fetch(
-        `${process.env.REACT_APP_PUBLIC_API_URL}/category/update/${categoryId}`,
-        {
-          method: "PUT",
-          headers,
-          body: JSON.stringify({
-            title: updatedValue,
-          }),
-        }
-      );
-
-      const res = await data.json();
-      res.status === "success" ? getAllCategories() : alert("Error");
+      await handleEditCategory(updatedValue, categoryId).then((res) => {
+        res.status === "success" ? getAllCategories() : alert("Error");
+      });
     } catch (error) {
       console.log(error);
     }
@@ -107,7 +72,7 @@ export default function Categories() {
           Add category
         </button>
 
-        {/* <Link to={"/todo"}>Go to todo</Link> */}
+        <Link to={"/todo"}>Go to todo</Link>
         <AddCategory show={show} hide={handleClose} onSubmit={addCategory} />
         <ul
           style={{
@@ -137,12 +102,14 @@ export default function Categories() {
                   </li>
 
                   <button onClick={() => handleShow(item)}>Edit</button>
-                  <button onClick={() => handleDelete(item._id)}>Delete</button>
+                  <button onClick={() => deleteCategory(item._id)}>
+                    Delete
+                  </button>
 
                   <EditCategory
                     show={show}
                     hide={handleClose}
-                    onSubmit={handleEditCategory}
+                    onSubmit={editCategory}
                     selectedItem={selectedItem}
                   />
                 </div>

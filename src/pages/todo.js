@@ -3,13 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import TodoForm from "../components/Todo/TodoForm";
 import TodoList from "../components/Todo/TodoList";
-import {
-  getTodos,
-  addTodo,
-  updateTodo,
-  deleteTodo,
-  getCategories,
-} from "./api/todos";
+import { getTodos, addTodo, updateTodo, deleteTodo } from "./api/todos";
+import { getCategories } from "./api/categories";
 
 export default function TodoApp() {
   const [todos, setTodos] = useState([]);
@@ -17,6 +12,7 @@ export default function TodoApp() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   let navigate = useNavigate();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
