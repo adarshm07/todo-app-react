@@ -100,18 +100,14 @@ export default function TodoApp() {
 
         <div className="filter-category">
           <div>
-            <span>Filter by</span>
-            <select
-              className="todo-filter"
-              name="category"
-              value={selectedCategory}
+            <span className="me-2">Filter by</span>
+            <select className="todo-filter" name="category" value={selectedCategory}
               onChange={(e) => {
                 setSelectedCategory(e.target.value);
                 e.target.value === "All"
                   ? fetchData()
                   : getTodoByCategory(e.target.value);
-              }}
-            >
+              }}>
               <option value={"All"}>All</option>
               {categories &&
                 categories.map((category) => (

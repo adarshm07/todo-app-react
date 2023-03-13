@@ -5,9 +5,7 @@ export default function Navbar() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (window.localStorage.getItem("token")) {
-      return navigate("/todo");
-    } else {
+    if (!window.localStorage.getItem("token")) {
       return navigate("/");
     }
   }, [navigate]);
